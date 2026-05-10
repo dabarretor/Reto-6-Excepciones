@@ -1,3 +1,6 @@
+"""This program generates a list of random integers for the user and
+then finds the largest sum of two consecutive"""
+
 import random
 
 while True:
@@ -7,28 +10,31 @@ while True:
             print("Please enter a valid integer greater than 0.")
         else:
             break
-    except ValueError:
-        print("Please enter a valid integer.")
+    except ValueError as error:
+        print(f"{error}, please enter a valid integer.")
 
 while True:
     try:
-        range_numbers1 = int(input("¿What is the range of the numbers? "
-        "(from ... to...): "))
+        range_numbers1 = int(
+            input("¿What is the range of the numbers? (from ... to...): ")
+        )
         break
-    except ValueError:
-        print("Please enter a valid integer.")
+    except ValueError as error:
+        print(f"{error}, please enter a valid integer.")
 
 while True:
     try:
-        range_numbers = int(input(f"¿What is the range of the numbers?"
-                                 f" (from {range_numbers1} to...): "))
+        range_numbers = int(
+            input(f"¿What is the range of the numbers? (from {range_numbers1} to...): ")
+        )
         if range_numbers < range_numbers1:
-            print("The second number must be greater than or equal to the "
-                  "first number.")
+            print(
+                "The second number must be greater than or equal to the first number."
+            )
         else:
             break
-    except ValueError:
-        print("Please enter a valid integer.")
+    except ValueError as error:
+        print(f"{error}, please enter a valid integer.")
 
 list_numbers = []
 
@@ -38,23 +44,25 @@ for i in range(quantity):
 
 print(f"This is the list of integers: {list_numbers}")
 
+
 def highest_consecutive_sum(list_numbers):
-    sums=[]
+    sums = []
     # The variable is declared with a very small value using '-inf'
     # to ensure that any sum found will be larger.
-    max_sum = float('-inf') 
+    max_sum = float("-inf")
     # The list is traversed from the first element to the last.
     for i in range(len(list_numbers) - 1):
         # The consecutive elements are added together.
-        sum = list_numbers[i] + list_numbers[i + 1]  
+        sum = list_numbers[i] + list_numbers[i + 1]
         sums.append(sum)
-        # It is checked if it is the largest sum found. 
+        # It is checked if it is the largest sum found.
         if sum > max_sum:
-            # And if it's the largest sum found, we update max_sum.  
-            max_sum = sum  
+            # And if it's the largest sum found, we update max_sum.
+            max_sum = sum
     return max_sum, sums
+
 
 result, list_sums = highest_consecutive_sum(list_numbers)
 print(f"This is the list of consecutive sums: {list_sums}")
 # It is used to call the function and display the result.
-print(f"The largest sum of consecutive elements is: {result}") 
+print(f"The largest sum of consecutive elements is: {result}")
