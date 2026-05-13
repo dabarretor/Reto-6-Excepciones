@@ -2,6 +2,10 @@ import math
 
 class Point:
     def __init__(self, x: int, y: int):
+        # Validar que x e y sean números (int o float)
+        # Sin esto, compute_distance() y compute_slope() fallarán con error confuso
+        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+            raise TypeError(f"Coordenadas deben ser números. Recibió x={type(x).__name__}, y={type(y).__name__}")
         self._x = x
         self._y = y
 
@@ -9,12 +13,18 @@ class Point:
         return self._x
 
     def set_x(self, new_x: int):
+        # Validar que nuevo valor sea número para evitar romper operaciones matemáticas posteriores
+        if not isinstance(new_x, (int, float)):
+            raise TypeError(f"x debe ser número, recibió {type(new_x).__name__}")
         self._x = new_x
 
     def get_y(self) -> int:
         return self._y
 
     def set_y(self, new_y: int):
+        # Validar que nuevo valor sea número para evitar romper operaciones matemáticas posteriores
+        if not isinstance(new_y, (int, float)):
+            raise TypeError(f"y debe ser número, recibió {type(new_y).__name__}")
         self._y = new_y
 
     def compute_distance(self, other_point: "Point") -> float:
@@ -27,6 +37,12 @@ class Point:
 
 class Line:
     def __init__(self, start_point: Point, end_point: Point):
+        # Validar que ambos puntos sean objetos Point (no None)
+        # compute_slope() y compute_distance() fallarán si son None o tipo incorrecto
+        if not isinstance(start_point, Point):
+            raise TypeError(f"start_point debe ser Point, recibió {type(start_point).__name__}")
+        if not isinstance(end_point, Point):
+            raise TypeError(f"end_point debe ser Point, recibió {type(end_point).__name__}")
         self._start_point = start_point
         self._end_point = end_point
         self._length = self._start_point.compute_distance(self._end_point)
@@ -35,12 +51,18 @@ class Line:
         return self._start_point
 
     def set_start_point(self, new_start: Point):
+        # Validar que sea Point válido para evitar romper métodos que dependen del tipo
+        if not isinstance(new_start, Point):
+            raise TypeError(f"start_point debe ser Point, recibió {type(new_start).__name__}")
         self._start_point = new_start
 
     def get_end_point(self) -> Point:
         return self._end_point
 
     def set_end_point(self, new_end: Point):
+        # Validar que sea Point válido para evitar romper métodos que dependen del tipo
+        if not isinstance(new_end, Point):
+            raise TypeError(f"end_point debe ser Point, recibió {type(new_end).__name__}")
         self._end_point = new_end
 
     def get_length(self) -> float:
@@ -49,6 +71,9 @@ class Line:
     def compute_slope(self) -> float:
         dy = self._end_point.get_y() - self._start_point.get_y()
         dx = self._end_point.get_x() - self._start_point.get_x()
+        # Caso degenerado: los dos puntos son el mismo, lo que hace que la pendiente sea indefinida (división por cero)
+        if dx == 0 and dy == 0:
+            raise ZeroDivisionError("No se puede dividir por 0")
         radians = math.atan2(dy, dx)
         angle = math.degrees(radians)
         return angle
