@@ -1,5 +1,6 @@
 from shape import Shape, Line, Point
 
+
 class Rectangle(Shape):
     def __init__(self, **kwargs):
         # The rectangle can be created using different combinations of parameters using the **kwargs syntax.
@@ -62,6 +63,20 @@ class Rectangle(Shape):
             self._width = width
             self._height = height
             self._center_point = Point(center_x, center_y)
+        else:
+            # If it doesn't meet any of the previous cases, an exception should be raised indicating
+            # that you don't have the required arguments to create the figure.
+            raise ValueError(
+                "You don't have the required arguments to create the figure"
+            )
+
+        # If any of the sides is less than or equal to 0,
+        # an exception is raised indicating that it is not possible to create the figure.
+        if self._width <= 0 or self._height <= 0:
+            raise ValueError(
+                "It is not possible to create the figure since one of its sides is less than or equal to 0"
+            )
+
         min_x = self._center_point.get_x() - int(self.get_width() / 2)
         max_x = self._center_point.get_x() + int(self.get_width() / 2)
         min_y = self._center_point.get_y() - int(self.get_height() / 2)

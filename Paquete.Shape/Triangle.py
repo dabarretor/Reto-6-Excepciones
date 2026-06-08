@@ -28,6 +28,23 @@ class Triangle(Shape):
 
         self._lines = [self._line1, self._line2, self._line3]
 
+        # If any of the sides is less than or equal to 0,
+        # an exception is raised indicating that it is not possible to create the figure.
+        if self._base <= 0 or self._height <= 0:
+            raise ValueError(
+                "It is not possible to create the figure since one of its sides is less than or equal to 0"
+            )
+        
+        # If the number of angles is not equal to 3
+        # an error is raised indicating that it is not possible to have the triangle
+        if len(angles) != 3:
+            raise ValueError("A triangle must have exactly 3 angles")
+
+        # If the sum of the inner angles is not equal to 180 degrees,
+        # an exception is raised indicating that the sum of the inner angles is not equal to 180 degrees.
+        if abs(sum(angles) - 180) > 0.001:
+            raise ValueError("The sum of the inner angles is not equal to 180 degrees")
+        
         super().__init__(
             is_regular=False,
             vertices=[p1_vertex, p2_vertex, p3_vertex],
